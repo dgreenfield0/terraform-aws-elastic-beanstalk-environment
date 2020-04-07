@@ -483,7 +483,7 @@ locals {
     {
       namespace = "aws:elasticbeanstalk:environment:process:default"
       name      = "Protocol"
-      value     = "HTTP"
+      value     = var.loadbalancer_protocol
     }
   ]
 
