@@ -335,136 +335,163 @@ locals {
       namespace = "aws:elb:loadbalancer"
       name      = "CrossZone"
       value     = "true"
+      resource  = ""
     },
     {
       namespace = "aws:ec2:vpc"
       name      = "ELBSubnets"
       value     = join(",", var.loadbalancer_subnets)
+      resource  = ""
     },
     {
       namespace = "aws:elb:loadbalancer"
       name      = "SecurityGroups"
       value     = join(",", var.loadbalancer_security_groups)
+      resource  = ""
     },
     {
       namespace = "aws:elb:loadbalancer"
       name      = "ManagedSecurityGroup"
       value     = var.loadbalancer_managed_security_group
+      resource  = ""
     },
     {
       namespace = "aws:elb:listener"
       name      = "ListenerProtocol"
       value     = "HTTP"
+      resource  = ""
     },
     {
       namespace = "aws:elb:listener"
       name      = "InstancePort"
       value     = var.application_port
+      resource  = ""
     },
     {
       namespace = "aws:elb:listener"
       name      = "ListenerEnabled"
       value     = var.http_listener_enabled || var.loadbalancer_certificate_arn == "" ? "true" : "false"
+      resource  = ""
     },
     {
       namespace = "aws:elb:listener:443"
       name      = "ListenerProtocol"
       value     = "HTTPS"
+      resource  = ""
     },
     {
       namespace = "aws:elb:listener:443"
       name      = "InstancePort"
       value     = var.application_port
+      resource  = ""
     },
     {
       namespace = "aws:elb:listener:443"
       name      = "SSLCertificateId"
       value     = var.loadbalancer_certificate_arn
+      resource  = ""
     },
     {
       namespace = "aws:elb:listener:443"
       name      = "ListenerEnabled"
       value     = var.loadbalancer_certificate_arn == "" ? "false" : "true"
+      resource  = ""
     },
     {
       namespace = "aws:elb:listener:${var.ssh_listener_port}"
       name      = "ListenerProtocol"
       value     = "TCP"
+      resource  = ""
     },
     {
       namespace = "aws:elb:listener:${var.ssh_listener_port}"
       name      = "InstancePort"
       value     = "22"
+      resource  = ""
     },
     {
       namespace = "aws:elb:listener:${var.ssh_listener_port}"
       name      = "ListenerEnabled"
       value     = var.ssh_listener_enabled
+      resource  = ""
     },
     {
       namespace = "aws:elb:policies"
       name      = "ConnectionSettingIdleTimeout"
       value     = var.ssh_listener_enabled ? "3600" : "60"
+      resource  = ""
     },
     {
       namespace = "aws:elb:policies"
       name      = "ConnectionDrainingEnabled"
       value     = "true"
+      resource  = ""
     },
     # { # only for ALBs or classic
     #  namespace = "aws:elbv2:loadbalancer"
     #  name      = "AccessLogsS3Bucket"
     #  value     = join("", aws_s3_bucket.elb_logs.*.id)
+    #  resource  = ""
     # },
     # { # only for ALBs or classic
     #  namespace = "aws:elbv2:loadbalancer"
     #  name      = "AccessLogsS3Enabled"
     #  value     = "true"
+    #  resource  = ""
     # },
     # { # only for ALBs or classic
     #  namespace = "aws:elbv2:loadbalancer"
     #  name      = "SecurityGroups"
     #  value     = join(",", var.loadbalancer_security_groups)
+    #  resource  = ""
     #},
     # { # only for ALBs or classic
     # namespace = "aws:elbv2:loadbalancer"
     # name      = "ManagedSecurityGroup"
     # value     = var.loadbalancer_managed_security_group
+    # resource  = ""
     # },
     {
       namespace = "aws:elbv2:listener:default"
       name      = "ListenerEnabled"
       value     = var.http_listener_enabled || var.loadbalancer_certificate_arn == "" ? "true" : "false"
+      resource  = ""
     },
     {
       namespace = "aws:elbv2:listener:443"
       name      = "ListenerEnabled"
       value     = var.loadbalancer_certificate_arn == "" ? "false" : "true"
+      resource  = ""
     },
     {
       namespace = "aws:elbv2:listener:443"
       name      = "Protocol"
       value     = var.loadbalancer_protocol
+      resource  = ""
     },
     # { # only for ALBs
     #  namespace = "aws:elbv2:listener:443"
     #  name      = "SSLCertificateArns"
     #  value     = var.loadbalancer_certificate_arn
+    #  resource  = ""
     # },
     {
       namespace = "aws:elbv2:listener:443"
       name      = "SSLPolicy"
       value     = var.loadbalancer_type == "application" ? var.loadbalancer_ssl_policy : ""
+      resource  = ""
     },
     {
       namespace = "aws:ec2:vpc"
       name      = "ELBScheme"
       value     = var.environment_type == "LoadBalanced" ? var.elb_scheme : ""
+      resource  = ""
     },
     {
       namespace = "aws:elasticbeanstalk:environment"
       name      = "LoadBalancerType"
       value     = var.loadbalancer_type
+      resource  = ""
     },
 
     ###===================== Application Load Balancer Health check settings =====================================================###
@@ -475,16 +502,19 @@ locals {
     #   namespace = "aws:elasticbeanstalk:environment:process:default"
     #   name      = "HealthCheckPath"
     #   value     = var.healthcheck_url
+    #  resource  = ""
     # },
     {
       namespace = "aws:elasticbeanstalk:environment:process:default"
       name      = "Port"
       value     = var.application_port
+      resource  = ""
     },
     {
       namespace = "aws:elasticbeanstalk:environment:process:default"
       name      = "Protocol"
       value     = var.loadbalancer_protocol
+      resource  = ""
     }
   ]
 
@@ -512,6 +542,7 @@ resource "aws_elastic_beanstalk_environment" "default" {
       namespace = setting.value["namespace"]
       name      = setting.value["name"]
       value     = setting.value["value"]
+      resource  = ""
     }
   }
 
@@ -519,162 +550,189 @@ resource "aws_elastic_beanstalk_environment" "default" {
     namespace = "aws:ec2:vpc"
     name      = "VPCId"
     value     = var.vpc_id
+    resource  = ""
   }
 
   setting {
     namespace = "aws:ec2:vpc"
     name      = "AssociatePublicIpAddress"
     value     = var.associate_public_ip_address
+    resource  = ""
   }
 
   setting {
     namespace = "aws:ec2:vpc"
     name      = "Subnets"
     value     = join(",", var.application_subnets)
+    resource  = ""
   }
 
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
     name      = "SecurityGroups"
     value     = join(",", compact(concat([aws_security_group.default.id], var.additional_security_groups)))
+    resource  = ""
   }
 
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
     name      = "IamInstanceProfile"
     value     = aws_iam_instance_profile.ec2.name
+    resource  = ""
   }
 
   setting {
     namespace = "aws:autoscaling:asg"
     name      = "Availability Zones"
     value     = var.availability_zone_selector
+    resource  = ""
   }
 
   setting {
     namespace = "aws:elasticbeanstalk:environment"
     name      = "EnvironmentType"
     value     = var.environment_type
+    resource  = ""
   }
 
   setting {
     namespace = "aws:elasticbeanstalk:environment"
     name      = "ServiceRole"
     value     = aws_iam_role.service.name
+    resource  = ""
   }
 
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
     name      = "BASE_HOST"
     value     = var.name
+    resource  = ""
   }
 
   setting {
     namespace = "aws:elasticbeanstalk:healthreporting:system"
     name      = "SystemType"
     value     = var.enhanced_reporting_enabled ? "enhanced" : "basic"
+    resource  = ""
   }
 
   setting {
     namespace = "aws:elasticbeanstalk:managedactions"
     name      = "ManagedActionsEnabled"
     value     = var.managed_actions_enabled ? "true" : "false"
+    resource  = ""
   }
 
   setting {
     namespace = "aws:autoscaling:asg"
     name      = "MinSize"
     value     = var.autoscale_min
+    resource  = ""
   }
 
   setting {
     namespace = "aws:autoscaling:asg"
     name      = "MaxSize"
     value     = var.autoscale_max
+    resource  = ""
   }
 
   setting {
     namespace = "aws:autoscaling:updatepolicy:rollingupdate"
     name      = "RollingUpdateEnabled"
     value     = var.rolling_update_enabled
+    resource  = ""
   }
 
   setting {
     namespace = "aws:autoscaling:updatepolicy:rollingupdate"
     name      = "RollingUpdateType"
     value     = var.rolling_update_type
+    resource  = ""
   }
 
   setting {
     namespace = "aws:autoscaling:updatepolicy:rollingupdate"
     name      = "MinInstancesInService"
     value     = var.updating_min_in_service
+    resource  = ""
   }
 
   setting {
     namespace = "aws:elasticbeanstalk:command"
     name      = "DeploymentPolicy"
     value     = var.rolling_update_type == "Immutable" ? "Immutable" : "Rolling"
+    resource  = ""
   }
 
   setting {
     namespace = "aws:autoscaling:updatepolicy:rollingupdate"
     name      = "MaxBatchSize"
     value     = var.updating_max_batch
+    resource  = ""
   }
 
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
     name      = "InstanceType"
     value     = var.instance_type
+    resource  = ""
   }
 
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
     name      = "EC2KeyName"
     value     = var.keypair
+    resource  = ""
   }
 
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
     name      = "RootVolumeSize"
     value     = var.root_volume_size
+    resource  = ""
   }
 
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
     name      = "RootVolumeType"
     value     = var.root_volume_type
+    resource  = ""
   }
 
   setting {
     namespace = "aws:elasticbeanstalk:command"
     name      = "BatchSizeType"
     value     = "Fixed"
+    resource  = ""
   }
 
   setting {
     namespace = "aws:elasticbeanstalk:command"
     name      = "BatchSize"
     value     = "1"
+    resource  = ""
   }
 
   setting {
     namespace = "aws:elasticbeanstalk:managedactions"
     name      = "PreferredStartTime"
     value     = var.preferred_start_time
+    resource  = ""
   }
 
   setting {
     namespace = "aws:elasticbeanstalk:managedactions:platformupdate"
     name      = "UpdateLevel"
     value     = var.update_level
+    resource  = ""
   }
 
   setting {
     namespace = "aws:elasticbeanstalk:managedactions:platformupdate"
     name      = "InstanceRefreshEnabled"
     value     = var.instance_refresh_enabled
+    resource  = ""
   }
 
   ###=========================== Autoscale trigger ========================== ###
@@ -683,42 +741,49 @@ resource "aws_elastic_beanstalk_environment" "default" {
     namespace = "aws:autoscaling:trigger"
     name      = "MeasureName"
     value     = var.autoscale_measure_name
+    resource  = ""
   }
 
   setting {
     namespace = "aws:autoscaling:trigger"
     name      = "Statistic"
     value     = var.autoscale_statistic
+    resource  = ""
   }
 
   setting {
     namespace = "aws:autoscaling:trigger"
     name      = "Unit"
     value     = var.autoscale_unit
+    resource  = ""
   }
 
   setting {
     namespace = "aws:autoscaling:trigger"
     name      = "LowerThreshold"
     value     = var.autoscale_lower_bound
+    resource  = ""
   }
 
   setting {
     namespace = "aws:autoscaling:trigger"
     name      = "LowerBreachScaleIncrement"
     value     = var.autoscale_lower_increment
+    resource  = ""
   }
 
   setting {
     namespace = "aws:autoscaling:trigger"
     name      = "UpperThreshold"
     value     = var.autoscale_upper_bound
+    resource  = ""
   }
 
   setting {
     namespace = "aws:autoscaling:trigger"
     name      = "UpperBreachScaleIncrement"
     value     = var.autoscale_upper_increment
+    resource  = ""
   }
 
   ###=========================== Logging ========================== ###
@@ -727,42 +792,49 @@ resource "aws_elastic_beanstalk_environment" "default" {
     namespace = "aws:elasticbeanstalk:hostmanager"
     name      = "LogPublicationControl"
     value     = var.enable_log_publication_control ? "true" : "false"
+    resource  = ""
   }
 
   setting {
     namespace = "aws:elasticbeanstalk:cloudwatch:logs"
     name      = "StreamLogs"
     value     = var.enable_stream_logs ? "true" : "false"
+    resource  = ""
   }
 
   setting {
     namespace = "aws:elasticbeanstalk:cloudwatch:logs"
     name      = "DeleteOnTerminate"
     value     = var.logs_delete_on_terminate ? "true" : "false"
+    resource  = ""
   }
 
   setting {
     namespace = "aws:elasticbeanstalk:cloudwatch:logs"
     name      = "RetentionInDays"
     value     = var.logs_retention_in_days
+    resource  = ""
   }
 
   setting {
     namespace = "aws:elasticbeanstalk:cloudwatch:logs:health"
     name      = "HealthStreamingEnabled"
     value     = var.health_streaming_enabled ? "true" : "false"
+    resource  = ""
   }
 
   setting {
     namespace = "aws:elasticbeanstalk:cloudwatch:logs:health"
     name      = "DeleteOnTerminate"
     value     = var.health_streaming_delete_on_terminate ? "true" : "false"
+    resource  = ""
   }
 
   setting {
     namespace = "aws:elasticbeanstalk:cloudwatch:logs:health"
     name      = "RetentionInDays"
     value     = var.health_streaming_retention_in_days
+    resource  = ""
   }
 
   // Add additional Elastic Beanstalk settings
@@ -773,6 +845,7 @@ resource "aws_elastic_beanstalk_environment" "default" {
       namespace = setting.value.namespace
       name      = setting.value.name
       value     = setting.value.value
+      resource  = ""
     }
   }
 
@@ -783,6 +856,7 @@ resource "aws_elastic_beanstalk_environment" "default" {
       namespace = "aws:elasticbeanstalk:application:environment"
       name      = setting.key
       value     = setting.value
+      resource  = ""
     }
   }
 }
