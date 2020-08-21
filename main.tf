@@ -466,7 +466,7 @@ locals {
     {
       namespace = "aws:elbv2:listener:443"
       name      = "Protocol"
-      value     = var.loadbalancer_protocol
+      value     = "HTTPS"
       resource  = ""
     },
     # { # only for ALBs
@@ -502,7 +502,7 @@ locals {
       namespace = "aws:elasticbeanstalk:environment:process:default"
       name      = "HealthCheckPath"
       value     = var.healthcheck_url
-     resource  = ""
+      resource  = ""
     },
     {
       namespace = "aws:elasticbeanstalk:environment:process:default"
@@ -513,7 +513,7 @@ locals {
     {
       namespace = "aws:elasticbeanstalk:environment:process:default"
       name      = "Protocol"
-      value     = var.loadbalancer_protocol
+      value     = "HTTP"
       resource  = ""
     }
   ]
