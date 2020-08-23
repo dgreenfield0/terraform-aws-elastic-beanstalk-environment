@@ -429,7 +429,7 @@ locals {
     },
     {
       namespace = "aws:elbv2:listener:default"
-      name      = "ListenerProtocol"
+      name      = "Protocol"
       value     = "TCP"
       resource  = ""
     },
