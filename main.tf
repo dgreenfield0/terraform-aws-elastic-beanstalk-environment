@@ -367,12 +367,12 @@ locals {
       value     = var.http_listener_enabled || var.loadbalancer_certificate_arn == "" ? "true" : "false"
       resource  = ""
     },
-    {
-      namespace = "aws:elbv2:listener:80"
-      name      = "DefaultProcess"
-      value     = var.application_port
-      resource  = ""
-    },
+    # {
+    #   namespace = "aws:elbv2:listener:80"
+    #   name      = "DefaultProcess"
+    #   value     = var.application_port
+    #   resource  = ""
+    # },
     # {
     #   namespace = "aws:elb:listener"
     #   name      = "ListenerProtocol"
