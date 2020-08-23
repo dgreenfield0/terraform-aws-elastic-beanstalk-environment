@@ -355,24 +355,6 @@ locals {
       value     = var.loadbalancer_managed_security_group
       resource  = ""
     },
-    {
-      namespace = "aws:elbv2:listener"
-      name      = "ListenerProtocol"
-      value     = "TCP"
-      resource  = ""
-    },
-    {
-      namespace = "aws:elbv2:listener:default"
-      name      = "ListenerEnabled"
-      value     = var.http_listener_enabled || var.loadbalancer_certificate_arn == "" ? "true" : "false"
-      resource  = ""
-    },
-    # {
-    #   namespace = "aws:elbv2:listener:80"
-    #   name      = "DefaultProcess"
-    #   value     = var.application_port
-    #   resource  = ""
-    # },
     # {
     #   namespace = "aws:elb:listener"
     #   name      = "ListenerProtocol"
@@ -445,6 +427,24 @@ locals {
       value     = "true"
       resource  = ""
     },
+    {
+      namespace = "aws:elbv2:listener:default"
+      name      = "ListenerProtocol"
+      value     = "TCP"
+      resource  = ""
+    },
+    {
+      namespace = "aws:elbv2:listener:default"
+      name      = "ListenerEnabled"
+      value     = var.http_listener_enabled || var.loadbalancer_certificate_arn == "" ? "true" : "false"
+      resource  = ""
+    },
+    # {
+    #   namespace = "aws:elbv2:listener:80"
+    #   name      = "DefaultProcess"
+    #   value     = var.application_port
+    #   resource  = ""
+    # },
     # { # only for ALBs or classic
     #  namespace = "aws:elbv2:loadbalancer"
     #  name      = "AccessLogsS3Bucket"
