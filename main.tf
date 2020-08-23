@@ -493,12 +493,12 @@ locals {
     #  value     = var.loadbalancer_certificate_arn
     #  resource  = ""
     # },
-    {
-      namespace = "aws:elbv2:listener:443"
-      name      = "SSLPolicy"
-      value     = var.loadbalancer_type == "application" ? var.loadbalancer_ssl_policy : ""
-      resource  = ""
-    },
+    # {
+    #   namespace = "aws:elbv2:listener:443"
+    #   name      = "SSLPolicy"
+    #   value     = var.loadbalancer_type == "application" ? var.loadbalancer_ssl_policy : ""
+    #   resource  = ""
+    # },
     {
       namespace = "aws:ec2:vpc"
       name      = "ELBScheme"
