@@ -531,7 +531,7 @@ locals {
     {
       namespace = "aws:elasticbeanstalk:environment:process:default"
       name      = "Protocol"
-      value     = "HTTP"
+      value     = "TCP"
       resource  = ""
     }
   ]
