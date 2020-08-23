@@ -427,6 +427,12 @@ locals {
       value     = "true"
       resource  = ""
     },
+        {
+      namespace = "aws:elbv2:listener:default"
+      name      = "ListenerEnabled"
+      value     = "false"
+      resource  = ""
+    },
     {
       namespace = "aws:elbv2:listener:default"
       name      = "Protocol"
