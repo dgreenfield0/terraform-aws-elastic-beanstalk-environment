@@ -475,18 +475,18 @@ locals {
     #   value     = var.http_listener_enabled || var.loadbalancer_certificate_arn == "" ? "true" : "false"
     #   resource  = ""
     # },
-    {
-      namespace = "aws:elbv2:listener:443"
-      name      = "ListenerEnabled"
-      value     = var.loadbalancer_certificate_arn == "" ? "false" : "true"
-      resource  = ""
-    },
-    {
-      namespace = "aws:elbv2:listener:443"
-      name      = "Protocol"
-      value     = "HTTPS"
-      resource  = ""
-    },
+    # {
+    #   namespace = "aws:elbv2:listener:443"
+    #   name      = "ListenerEnabled"
+    #   value     = var.loadbalancer_certificate_arn == "" ? "false" : "true"
+    #   resource  = ""
+    # },
+    # {
+    #   namespace = "aws:elbv2:listener:443"
+    #   name      = "Protocol"
+    #   value     = "HTTPS"
+    #   resource  = ""
+    # },
     # { # only for ALBs
     #  namespace = "aws:elbv2:listener:443"
     #  name      = "SSLCertificateArns"
