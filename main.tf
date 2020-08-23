@@ -516,12 +516,12 @@ locals {
     # The Application Load Balancer health check does not take into account the Elastic Beanstalk health check path
     # http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/environments-cfg-applicationloadbalancer.html
     # http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/environments-cfg-applicationloadbalancer.html#alb-default-process.config
-    # {
-    #   namespace = "aws:elasticbeanstalk:environment:process:default"
-    #   name      = "HealthCheckPath"
-    #   value     = var.healthcheck_url
-    #   resource  = ""
-    # },
+    {
+      namespace = "aws:elasticbeanstalk:environment:process:default"
+      name      = "HealthCheckPath"
+      value     = var.healthcheck_url
+      resource  = ""
+    },
     {
       namespace = "aws:elasticbeanstalk:environment:process:default"
       name      = "Port"
