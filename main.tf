@@ -865,36 +865,36 @@ data "aws_elb_service_account" "main" {
   count = var.tier == "WebServer" ? 1 : 0
 }
 
-data "aws_iam_policy_document" "elb_logs" {
-  count = var.tier == "WebServer" ? 1 : 0
+# data "aws_iam_policy_document" "elb_logs" {
+#   count = var.tier == "WebServer" ? 1 : 0
 
-  statement {
-    sid = ""
+#   statement {
+#     sid = ""
 
-    actions = [
-      "s3:PutObject",
-    ]
+#     actions = [
+#       "s3:PutObject",
+#     ]
 
-    resources = [
-      "arn:aws:s3:::${module.label.id}-eb-loadbalancer-logs/*"
-    ]
+#     resources = [
+#       "arn:aws:s3:::${module.label.id}-eb-loadbalancer-logs/*"
+#     ]
 
-    principals {
-      type        = "AWS"
-      identifiers = [join("", data.aws_elb_service_account.main.*.arn)]
-    }
+#     principals {
+#       type        = "AWS"
+#       identifiers = [join("", data.aws_elb_service_account.main.*.arn)]
+#     }
 
-    effect = "Allow"
-  }
-}
+#     effect = "Allow"
+#   }
+# }
 
-resource "aws_s3_bucket" "elb_logs" {
-  count         = var.tier == "WebServer" ? 1 : 0
-  bucket        = "${module.label.id}-eb-loadbalancer-logs"
-  acl           = "private"
-  force_destroy = var.force_destroy
-  policy        = join("", data.aws_iam_policy_document.elb_logs.*.json)
-}
+# resource "aws_s3_bucket" "elb_logs" {
+#   count         = var.tier == "WebServer" ? 1 : 0
+#   bucket        = "${module.label.id}-eb-loadbalancer-logs"
+#   acl           = "private"
+#   force_destroy = var.force_destroy
+#   policy        = join("", data.aws_iam_policy_document.elb_logs.*.json)
+# }
 
 module "dns_hostname" {
   source  = "git::https://github.com/cloudposse/terraform-aws-route53-cluster-hostname.git?ref=tags/0.3.0"
